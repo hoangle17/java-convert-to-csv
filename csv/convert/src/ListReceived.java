@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
@@ -12,34 +13,41 @@ import java.util.Scanner;
 public class ListReceived {
     private ArrayList<ReceivedFormat> arrayList;
 
-    public ListReceived(ArrayList<ReceivedFormat> arrayList) {
-        this.arrayList = arrayList;
-    }
-
     public void handleReceivedData(String path) {
         arrayList = new ArrayList<>();
         try {
             File myObj = new File(path);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
+                ReceivedFormat receivedFormat;
                 String data = myReader.nextLine();
-                System.out.println(data);
+                receivedFormat = readLineToObject(data);
+                arrayList.add(receivedFormat);
             }
             myReader.close();
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | ParseException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        for (int i = 0; i < arrayList.size(); i++) {
+            System.out.println(arrayList.get(i).toString());
+        }
     }
 
-    public void readLineToObject(String line) {
+    public ReceivedFormat readLineToObject(String line) throws ParseException {
         LocalDate date;
         Date time;
         String station;
         int sensor;
-        float value;
+        String value;
         String contain[] = line.split(",");
-//        contain[1] = convertToTime();
+        date = convertToDate(contain[0]);
+        time = convertToTime(contain[1]);
+        station = contain[2];
+        sensor = Integer.parseInt(contain[3]);
+        value = contain[4];
+        ReceivedFormat receivedFormat = new ReceivedFormat(date, time, station, sensor, value);
+        return receivedFormat;
     }
 
     public Date convertToTime(String s) throws ParseException {

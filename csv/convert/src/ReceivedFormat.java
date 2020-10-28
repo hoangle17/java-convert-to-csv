@@ -1,16 +1,15 @@
-import java.sql.Date;
-import java.sql.Time;
+
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ReceivedFormat {
     private LocalDate date;
     private Date time;
     private String nameStation;
     private int idSensor;
-    private float value;
+    private String value;
 
-
-    public ReceivedFormat(LocalDate date, Date time, String nameStation, int idSensor, float value) {
+    public ReceivedFormat(LocalDate date, Date time, String nameStation, int idSensor, String value) {
         this.date = date;
         this.time = time;
         this.nameStation = nameStation;
@@ -50,11 +49,22 @@ public class ReceivedFormat {
         this.idSensor = idSensor;
     }
 
-    public float getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "ReceivedFormat{" +
+                "date=" + date +
+                ", time=" + time +
+                ", nameStation='" + nameStation + '\'' +
+                ", idSensor=" + idSensor +
+                ", value='" + value + '\'' +
+                '}';
     }
 }
